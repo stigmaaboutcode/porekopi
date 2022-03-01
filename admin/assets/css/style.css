@@ -1,0 +1,17 @@
+.browns-text{
+    color: #876445;
+}
+
+.button-brown{
+    background-color: #876445;
+    color: white;
+}
+
+.button-brown:hover {
+    background-color: #CDB699;
+    color: white;
+}  
+
+input[type="checkbox"]:checked {
+    background-color: #876445;
+}
