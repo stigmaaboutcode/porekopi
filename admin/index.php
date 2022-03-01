@@ -9,7 +9,7 @@ require_once 'class/apiClass.php';
     <head>
         
         <meta charset="utf-8" />
-        <title>Seller Login | Pore Kopi</title>
+        <title>Login Seller | Pore Kopi</title>
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <meta content="PoreKopi" name="author"/>
 
@@ -28,7 +28,7 @@ require_once 'class/apiClass.php';
         <script src="assets/js/onfocus.js"></script>
     </head>
 
-    <body class="bg-">
+    <body class="bg-pattern">
         <div class="bg-overlay"></div>
         <div class="account-pages my-5 pt-5">
             <div class="container">
@@ -81,7 +81,7 @@ require_once 'class/apiClass.php';
                                                     </div>
                                                     <div class="col-12 col-sm-7 col-md-7">
                                                         <div class="text-md-end text-sm-end mt-md-0">
-                                                            <a href="auth-recoverpw.html" class="browns-text"><i class="mdi mdi-lock"></i> Forgot your password?</a>
+                                                            <a href="#" class="browns-text"><i class="mdi mdi-lock"></i> Forgot your password?</a>
                                                         </div>
                                                     </div>
                                                 </div>
