@@ -20,7 +20,7 @@ if(isset($_POST['get_login'])){
             if(!password_verify($password, $dbpass)){
                 $alert = 2;
             }else{
-                $_SESSION['login_store'] = true;
+                $_SESSION['login_store_pore'] = true;
                 $_SESSION['username_aadmin'] = $dataAdmin['username'];
                 header('Location: home');
                 exit();

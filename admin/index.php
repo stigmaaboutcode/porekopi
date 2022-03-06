@@ -1,6 +1,11 @@
 <?php  
 $alert = '';
 require_once 'class/apiClass.php';
+require_once 'class/authAdmin.php';
+if($_SESSION['login_store_pore'] == true){
+    header('Location:'. $_SESSION['revious_page']);
+    exit();
+}
 ?>
 
 <!doctype html>

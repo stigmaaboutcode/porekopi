@@ -1,21 +1,32 @@
+<?php  
+require_once 'class/apiClass.php';
+if($_SESSION['login_store_pore'] != true){
+    header('Location: index');
+    exit();
+}
+$_SESSION['revious_page'] = explode('.',$_SERVER['PHP_SELF'])[0];
+?>
+
 <!doctype html>
 <html lang="en">
 
     <head>
         
         <meta charset="utf-8" />
-        <title>Dashboard Seller | Pore Kopi</title>
+        <title>Dasbor Seller | Pore Kopi</title>
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <meta content="PoreKopi" name="author"/>
 
         <!-- App favicon -->
-        <link rel="shortcut icon" href="assets/images/favicon.png">
+        <<link rel="shortcut icon" href="assets/images/favicon.png">
 
         <!-- Bootstrap Css -->
         <link href="assets/css/bootstrap.min.css" id="bootstrap-style" rel="stylesheet" type="text/css" />
         
         <!-- Icons Css -->
         <link href="assets/css/icons.min.css" rel="stylesheet" type="text/css" />
+
+        <!-- <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet"> -->
         
         <!-- App Css-->
         <link href="assets/css/app.min.css" id="app-style" rel="stylesheet" type="text/css" />
@@ -98,7 +109,7 @@
                                 <a class="dropdown-item d-block" href="#"><span class="badge bg-success float-end mt-1">11</span><i class="ri-settings-2-line align-middle me-1"></i> Settings</a>
                                 <a class="dropdown-item" href="#"><i class="ri-lock-unlock-line align-middle me-1"></i> Lock screen</a>
                                 <div class="dropdown-divider"></div> -->
-                                <a class="dropdown-item text-danger" href="#"><i class="ri-shut-down-line align-middle me-1 text-danger"></i> Logout</a>
+                                <a class="dropdown-item text-danger" href="logout.php"><i class="ri-shut-down-line align-middle me-1 text-danger"></i> Logout</a>
                             </div>
                         </div>
 
@@ -124,12 +135,12 @@
                         <div class="row">
                             <div class="col-12">
                                 <div class="page-title-box d-sm-flex align-items-center justify-content-between">
-                                    <h4 class="mb-sm-0">Dashboard</h4>
+                                    <h4 class="mb-sm-0">Dasbor</h4>
 
                                     <div class="page-title-right">
                                         <ol class="breadcrumb m-0">
-                                            <li class="breadcrumb-item"><a href="javascript: void(0);">Utility</a></li>
-                                            <li class="breadcrumb-item active">Dashboard</li>
+                                            <!-- <li class="breadcrumb-item"><a href="javascript: void(0);">Utility</a></li> -->
+                                            <li class="breadcrumb-item active">Dasbor</li>
                                         </ol>
                                     </div>
 
@@ -138,6 +149,82 @@
                         </div>
                         <!-- end page title -->
                         
+                        <!-- content body -->
+                        <div class="row">
+                            <!-- col -->
+                            <div class="col-xl-6 col-sm-6">
+                                <div class="card">
+                                    <div class="card-body">
+                                        <div class="d-flex text-muted">
+                                            <div class="flex-shrink-0  me-3 align-self-center">
+                                                <div class="avatar-sm">
+                                                    <div class="avatar-title bg-light rounded-circle browns-text font-size-20">
+                                                        <i class="mdi mdi-cash"></i>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="flex-grow-1 overflow-hidden">
+                                                <p class="mb-1">Penjualan hari ini</p>
+                                                <h5 class="mb-3">Rp.240.000,00</h5>
+                                                <p class="text-truncate mb-0"><span class="browns-text me-2"> Rp.13.000,00 <i class="ri-arrow-right-up-line align-bottom ms-1"></i></span> Rata-rata</p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <!-- end card-body -->
+                                </div>
+                                <!-- end card -->
+                            </div>
+                            <!-- end col -->
+                            <!-- col -->
+                            <div class="col-xl-6 col-sm-6">
+                                <div class="card">
+                                    <div class="card-body">
+                                        <div class="d-flex text-muted">
+                                            <div class="flex-shrink-0  me-3 align-self-center">
+                                                <div class="avatar-sm">
+                                                    <div class="avatar-title bg-light rounded-circle browns-text font-size-20">
+                                                        <i class="mdi mdi-cash-multiple"></i>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="flex-grow-1 overflow-hidden">
+                                                <p class="mb-1">Penjualan bulan ini</p>
+                                                <h5 class="mb-3">Rp.240.000,00</h5>
+                                                <p class="text-truncate mb-0"><span class="browns-text me-2">Rp.13.000,00 - Rp.13.000,00 <i class="ri-arrow-right-up-line align-bottom ms-1"></i></span> Target</p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <!-- end card-body -->
+                                </div>
+                                <!-- end card -->
+                            </div>
+                            <!-- end col -->
+                            <!-- col -->
+                            <div class="col-xl-6 col-sm-6">
+                                <div class="card">
+                                    <div class="card-body">
+                                        <div class="d-flex text-muted">
+                                            <div class="flex-shrink-0  me-3 align-self-center">
+                                                <div class="avatar-sm">
+                                                    <div class="avatar-title bg-light rounded-circle browns-text font-size-20">
+                                                        <i class="mdi mdi-cart-outline"></i>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="flex-grow-1 overflow-hidden">
+                                                <p class="mb-1">Total Penjualan</p>
+                                                <h5 class="mb-3">234 Pesanan</h5>
+                                                <p class="text-truncate mb-0"><span class="browns-text me-2">0.13% <i class="ri-arrow-right-up-line align-bottom ms-1"></i></span> Persentase</p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <!-- end card-body -->
+                                </div>
+                                <!-- end card -->
+                            </div>
+                            <!-- end col -->
+                        </div>
+                        <!-- endcontent body -->
 
                     </div> <!-- container-fluid -->
                 </div>
