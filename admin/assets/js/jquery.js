@@ -10,3 +10,19 @@ $("#username").on({
         this.value = this.value.replace(/\s/g, "");
     }
 });
+
+
+const toggle = document.querySelector(".toggle"),
+    input = document.querySelector(".pass");
+
+    toggle.addEventListener("click", () => {
+        if(input.type === 'password'){
+            input.type = "text",
+            toggle.classList.replace("ri-eye-off-line", "ri-eye-line")
+        }else{
+            input.type = "password",
+            toggle.classList.replace("ri-eye-line", "ri-eye-off-line")
+        }
+    });
+
+    

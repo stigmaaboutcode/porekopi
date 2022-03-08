@@ -13,12 +13,12 @@ $_SESSION['revious_page'] = explode('.',$_SERVER['PHP_SELF'])[0];
     <head>
         
         <meta charset="utf-8" />
-        <title>Dasbor Seller | Pore Kopi</title>
+        <title>Dasbor Toko | Pore Kopi</title>
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <meta content="PoreKopi" name="author"/>
 
         <!-- App favicon -->
-        <<link rel="shortcut icon" href="assets/images/favicon.png">
+        <link rel="shortcut icon" href="assets/images/favicon.png">
 
         <!-- Bootstrap Css -->
         <link href="assets/css/bootstrap.min.css" id="bootstrap-style" rel="stylesheet" type="text/css" />
@@ -42,80 +42,7 @@ $_SESSION['revious_page'] = explode('.',$_SERVER['PHP_SELF'])[0];
         <div id="layout-wrapper">
 
             
-            <header id="page-topbar">
-                <div class="navbar-header">
-                    <div class="d-flex">
-                        <!-- LOGO -->
-                        <div class="navbar-brand-box text-center">
-
-                            <a href="home" class="logo logo-light">
-                                <span class="logo-sm">
-                                    <img src="assets/images/logo-sm.png" alt="logo-sm-light" height="22">
-                                </span>
-                                <span class="logo-lg">
-                                    <img src="assets/images/logo-light.png" alt="logo-light" height="24">
-                                </span>
-                            </a>
-                        </div>
-
-                        <button type="button" class="btn btn-sm px-3 font-size-24 header-item waves-effect" id="vertical-menu-btn">
-                            <i class="ri-menu-2-line align-middle"></i>
-                        </button>
-
-                    </div>
-
-                    <div class="d-flex">
-
-                        <div class="dropdown d-inline-block d-lg-none ms-2">
-                            <button type="button" class="btn header-item noti-icon waves-effect" id="page-header-search-dropdown"
-                                data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                <i class="ri-search-line"></i>
-                            </button>
-                            <div class="dropdown-menu dropdown-menu-lg dropdown-menu-end p-0"
-                                aria-labelledby="page-header-search-dropdown">
-                    
-                                <form class="p-3">
-                                    <div class="mb-3 m-0">
-                                        <div class="input-group">
-                                            <input type="text" class="form-control" placeholder="Search ...">
-                                            <div class="input-group-append">
-                                                <button class="btn btn-primary" type="submit"><i class="ri-search-line"></i></button>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </form>
-                            </div>
-                        </div>
-
-
-                        <div class="dropdown d-none d-lg-inline-block ms-1">
-                            <button type="button" class="btn header-item noti-icon waves-effect" data-toggle="fullscreen">
-                                <i class="ri-fullscreen-line"></i>
-                            </button>
-                        </div>
-
-                        
-                        <div class="dropdown d-inline-block user-dropdown">
-                            <button type="button" class="btn header-item waves-effect" id="page-header-user-dropdown" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                <img class="rounded-circle header-profile-user" src="assets/images/users/USER.png"
-                                    alt="Header Avatar">
-                                <span class="d-none d-xl-inline-block ms-1">username</span>
-                                <i class="mdi mdi-chevron-down d-none d-xl-inline-block"></i>
-                            </button>
-                            <div class="dropdown-menu dropdown-menu-end">
-                                <!-- item
-                                <a class="dropdown-item" href="#"><i class="ri-user-line align-middle me-1"></i> Profile</a>
-                                <a class="dropdown-item" href="#"><i class="ri-wallet-2-line align-middle me-1"></i> My Wallet</a>
-                                <a class="dropdown-item d-block" href="#"><span class="badge bg-success float-end mt-1">11</span><i class="ri-settings-2-line align-middle me-1"></i> Settings</a>
-                                <a class="dropdown-item" href="#"><i class="ri-lock-unlock-line align-middle me-1"></i> Lock screen</a>
-                                <div class="dropdown-divider"></div> -->
-                                <a class="dropdown-item text-danger" href="logout.php"><i class="ri-shut-down-line align-middle me-1 text-danger"></i> Logout</a>
-                            </div>
-                        </div>
-
-                    </div>
-                </div>
-            </header>
+            
 
             <!-- ========== Left Sidebar Start ========== -->
             <?php require_once "sidebar.php" ?>
@@ -154,22 +81,50 @@ $_SESSION['revious_page'] = explode('.',$_SERVER['PHP_SELF'])[0];
                             <!-- col -->
                             <div class="col-xl-6 col-sm-6">
                                 <div class="card">
-                                    <div class="card-body">
-                                        <div class="d-flex text-muted">
-                                            <div class="flex-shrink-0  me-3 align-self-center">
-                                                <div class="avatar-sm">
-                                                    <div class="avatar-title bg-light rounded-circle browns-text font-size-20">
-                                                        <i class="mdi mdi-cash"></i>
+                                    <a href="">
+                                        <div class="card-body">
+                                            <div class="d-flex text-muted">
+                                                <div class="flex-shrink-0  me-3 align-self-center">
+                                                    <div class="avatar-sm">
+                                                        <div class="avatar-title bg-light rounded-circle browns-text font-size-20">
+                                                            <i class="mdi mdi-cash"></i>
+                                                        </div>
                                                     </div>
                                                 </div>
-                                            </div>
-                                            <div class="flex-grow-1 overflow-hidden">
-                                                <p class="mb-1">Penjualan hari ini</p>
-                                                <h5 class="mb-3">Rp.240.000,00</h5>
-                                                <p class="text-truncate mb-0"><span class="browns-text me-2"> Rp.13.000,00 <i class="ri-arrow-right-up-line align-bottom ms-1"></i></span> Rata-rata</p>
+                                                <div class="flex-grow-1 overflow-hidden">
+                                                    <p class="mb-1">Penjualan hari ini</p>
+                                                    <h5 class="mb-3">Rp.240.000,00</h5>
+                                                    <p class="text-truncate mb-0"><span class="browns-text me-2"> Rp.13.000,00 <i class="ri-arrow-right-up-line align-bottom ms-1"></i></span> Rata-rata</p>
+                                                </div>
                                             </div>
                                         </div>
-                                    </div>
+                                    </a>
+                                    <!-- end card-body -->
+                                </div>
+                                <!-- end card -->
+                            </div>
+                            <!-- end col -->
+                        <!-- col -->
+                            <div class="col-xl-6 col-sm-6">
+                                <div class="card">
+                                    <a href="">
+                                        <div class="card-body">
+                                            <div class="d-flex text-muted">
+                                                <div class="flex-shrink-0  me-3 align-self-center">
+                                                    <div class="avatar-sm">
+                                                        <div class="avatar-title bg-light rounded-circle browns-text font-size-20">
+                                                            <i class="mdi mdi-cash-multiple"></i>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="flex-grow-1 overflow-hidden">
+                                                    <p class="mb-1">Penjualan bulan ini</p>
+                                                    <h5 class="mb-3">Rp.240.000,00</h5>
+                                                    <p class="text-truncate mb-0"><span class="browns-text me-2">Rp.13.000,00 - Rp.13.000,00 <i class="ri-arrow-right-up-line align-bottom ms-1"></i></span> Target</p>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </a>
                                     <!-- end card-body -->
                                 </div>
                                 <!-- end card -->
@@ -178,22 +133,24 @@ $_SESSION['revious_page'] = explode('.',$_SERVER['PHP_SELF'])[0];
                             <!-- col -->
                             <div class="col-xl-6 col-sm-6">
                                 <div class="card">
-                                    <div class="card-body">
-                                        <div class="d-flex text-muted">
-                                            <div class="flex-shrink-0  me-3 align-self-center">
-                                                <div class="avatar-sm">
-                                                    <div class="avatar-title bg-light rounded-circle browns-text font-size-20">
-                                                        <i class="mdi mdi-cash-multiple"></i>
+                                    <a href="">
+                                        <div class="card-body">
+                                            <div class="d-flex text-muted">
+                                                <div class="flex-shrink-0  me-3 align-self-center">
+                                                    <div class="avatar-sm">
+                                                        <div class="avatar-title bg-light rounded-circle browns-text font-size-20">
+                                                            <i class="mdi mdi-cart-outline"></i>
+                                                        </div>
                                                     </div>
                                                 </div>
-                                            </div>
-                                            <div class="flex-grow-1 overflow-hidden">
-                                                <p class="mb-1">Penjualan bulan ini</p>
-                                                <h5 class="mb-3">Rp.240.000,00</h5>
-                                                <p class="text-truncate mb-0"><span class="browns-text me-2">Rp.13.000,00 - Rp.13.000,00 <i class="ri-arrow-right-up-line align-bottom ms-1"></i></span> Target</p>
+                                                <div class="flex-grow-1 overflow-hidden">
+                                                    <p class="mb-1">Total Penjualan</p>
+                                                    <h5 class="mb-3">234 Pesanan</h5>
+                                                    <p class="text-truncate mb-0"><span class="browns-text me-2">0.13% <i class="ri-arrow-right-up-line align-bottom ms-1"></i></span> Persentase</p>
+                                                </div>
                                             </div>
                                         </div>
-                                    </div>
+                                    </a>
                                     <!-- end card-body -->
                                 </div>
                                 <!-- end card -->
@@ -202,26 +159,42 @@ $_SESSION['revious_page'] = explode('.',$_SERVER['PHP_SELF'])[0];
                             <!-- col -->
                             <div class="col-xl-6 col-sm-6">
                                 <div class="card">
-                                    <div class="card-body">
-                                        <div class="d-flex text-muted">
-                                            <div class="flex-shrink-0  me-3 align-self-center">
-                                                <div class="avatar-sm">
-                                                    <div class="avatar-title bg-light rounded-circle browns-text font-size-20">
-                                                        <i class="mdi mdi-cart-outline"></i>
+                                    <a href="">
+                                        <div class="card-body">
+                                            <div class="d-flex text-muted">
+                                                <div class="flex-shrink-0  me-3 align-self-center">
+                                                    <div class="avatar-sm">
+                                                        <div class="avatar-title bg-light rounded-circle browns-text font-size-20">
+                                                            <i class="mdi mdi-calculator-variant"></i>
+                                                        </div>
                                                     </div>
                                                 </div>
-                                            </div>
-                                            <div class="flex-grow-1 overflow-hidden">
-                                                <p class="mb-1">Total Penjualan</p>
-                                                <h5 class="mb-3">234 Pesanan</h5>
-                                                <p class="text-truncate mb-0"><span class="browns-text me-2">0.13% <i class="ri-arrow-right-up-line align-bottom ms-1"></i></span> Persentase</p>
+                                                <div class="flex-grow-1 overflow-hidden">
+                                                    <p class="mb-1">Laba bersih bulan ini</p>
+                                                    <h5 class="mb-3">Rp.100.000,00</h5>
+                                                    <p class="text-truncate mb-0"><span class="browns-text me-2">0.13% <i class="ri-arrow-right-up-line align-bottom ms-1"></i></span> Persentase</p>
+                                                </div>
                                             </div>
                                         </div>
-                                    </div>
+                                    </a>
                                     <!-- end card-body -->
                                 </div>
                                 <!-- end card -->
                             </div>
+                            <!-- end col -->
+                            <!-- col -->
+                            <div class="col-xl-12">
+                                <div class="card">
+                                    <div class="card-body">
+                        
+                                        <h4 class="card-title">Data Tahun 2022</h4>
+                                        <p class="card-title-desc">Pemasukan & pengeluaran</p>
+    
+                                        <canvas id="barChart"></canvas>
+                        
+                                    </div> <!-- end card-body-->
+                                </div> <!-- end card-->
+                            </div> <!-- end col -->
                             <!-- end col -->
                         </div>
                         <!-- endcontent body -->
@@ -257,6 +230,67 @@ $_SESSION['revious_page'] = explode('.',$_SERVER['PHP_SELF'])[0];
         <script src="assets/libs/metismenu/metisMenu.min.js"></script>
         <script src="assets/libs/simplebar/simplebar.min.js"></script>
         <script src="assets/libs/node-waves/waves.min.js"></script>
+
+        <!-- Chart JS -->
+        <script src="assets/libs/chart.js/Chart.bundle.min.js"></script>
+        <script>
+            !function(n){"use strict";n(function(){var e,a,r,o,t;Chart.defaults.global.defaultFontColor="#7b919e",Chart.defaults.scale.gridLines.color="rgba(123, 145, 158,0.1)",
+                n("#barChart").length&&(a=n("#barChart").get(0).getContext("2d"),new Chart(a,{
+                    type:"bar",
+                    data:{
+                        labels:["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"],
+                        datasets:[
+                            {
+                                label:"Pemasukan",
+                                data:[46,57,59,54,62,58,64,60,66,44,66,54],
+                                backgroundColor:"#4FD3C4"
+                            },
+                            {
+                                label:"Pengeluaran",
+                                data:[74,83,102,97,86,106,93,114,94,78,34,89],
+                                backgroundColor:"#D82148"
+                            }
+                        ]
+                    },
+                    options:{
+                        responsive:!0,
+                        maintainAspectRatio:!0,
+                        scales:{
+                            yAxes:[
+                                {
+                                    display:!1,
+                                    gridLines:{
+                                        drawBorder:!1
+                                    },
+                                    ticks:{
+                                        fontColor:"#686868"
+                                    }
+                                }
+                            ],
+                            xAxes:[
+                                {
+                                    barPercentage:.7,
+                                    categoryPercentage:.5,
+                                    ticks:{
+                                        fontColor:"#7b919e"
+                                    },
+                                    gridLines:{
+                                        display:!1,
+                                        drawBorder:!1
+                                    }
+                                }
+                            ]
+                        },
+                        elements:{
+                            point:{
+                                radius:0
+                            }
+                        }
+                    }
+                }))
+            })}(jQuery);
+        </script>
+        
 
         <script src="assets/js/app.js"></script>
 

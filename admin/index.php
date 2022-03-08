@@ -1,7 +1,7 @@
 <?php  
 $alert = '';
 require_once 'class/apiClass.php';
-require_once 'class/authAdmin.php';
+require_once 'authAdmin.php';
 if($_SESSION['login_store_pore'] == true){
     header('Location:'. $_SESSION['revious_page']);
     exit();
@@ -67,7 +67,10 @@ if($_SESSION['login_store_pore'] == true){
                                                 </div>
                                                 <div class="mb-4">
                                                     <label class="form-label browns-text" for="userpassword">Password</label>
-                                                    <input type="password" name="password" class="form-control <?= $alert == 2 || $alert == 3 ? 'is-invalid' : ''  ?>" id="userpassword" placeholder="enter password" <?= $alert == 2 ? 'autofocus' : '' ?>>
+                                                    <div class="input-group password">
+                                                        <input type="password" name="password" class="form-control <?= $alert == 2 || $alert == 3 ? 'is-invalid' : ''  ?> pass" id="userpassword" placeholder="enter password" <?= $alert == 2 ? 'autofocus' : '' ?>>
+                                                        <i class="ri-eye-off-line toggle input-group-text"></i>
+                                                    </div>
                                                     <?php  
                                                     if($alert == 2 || $alert == 3){
                                                     ?>
@@ -81,7 +84,7 @@ if($_SESSION['login_store_pore'] == true){
                                                     <div class="col-12 col-sm-5 col-md-5">
                                                         <div class="form-check">
                                                             <input type="checkbox" class="form-check-input" id="customControlInline">
-                                                            <label class="form-label browns-text" for="customControlInline">Remember me</label>
+                                                            <label class="form-label browns-text" style="cursor: pointer;" for="customControlInline">Remember me</label>
                                                         </div>
                                                     </div>
                                                     <div class="col-12 col-sm-7 col-md-7">
@@ -118,6 +121,6 @@ if($_SESSION['login_store_pore'] == true){
 
         <script src="assets/js/app.js"></script>
         <script src="assets/js/jquery.js"></script>
-
+    
     </body>
 </html>
