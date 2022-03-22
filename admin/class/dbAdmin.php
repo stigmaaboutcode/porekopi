@@ -49,6 +49,41 @@ class dbAdmin extends dbConnect{
         return $result;
     }
 
+    public function checkCategory(?string $name, ?string $param, ?string $newName){
+        $sql = "SELECT * FROM kategori_produk LIMIT 3";
+        if(is_null($param)){
+            $sql = "SELECT * FROM kategori_produk WHERE nama_kategori='$name'";
+        }elseif($param == "edit"){
+            $sql = "SELECT * FROM kategori_produk WHERE nama_kategori<>'$name' AND  nama_kategori='$newName'";
+        }elseif($param == "select"){
+            $sql = "SELECT * FROM kategori_produk";
+        }
+        $exe = $this->dbConn()->query($sql);
+        $nums = $exe->num_rows;
+        while($rows = $exe->fetch_assoc()){
+            $data[] = $rows;
+        }
+        
+        $result['data'] = $data;
+        $result['nums'] = $nums;
+
+        return $result;
+    }
+
+    public function InsertCategory(string $fotoName, string $kategoriName){
+        $sql = "INSERT INTO kategori_produk (nama_kategori,foto_kategori) VALUES('$kategoriName','$fotoName')";
+        $exe = $this->dbConn()->query($sql);
+        return $exe;
+    }
+
+    public function UpdateCategory(string $param, ?string $name, ?string $image, ?string $key){
+        if($param == "withImg"){
+            $sql = "UPDATE kategori_produk SET nama_kategori='$name', foto_kategori='$image' WHERE nama_kategori='$key'";
+        }
+        $exe = $this->dbConn()->query($sql);
+        return $exe;
+    }
+
     public function formatNoTelpn(string $no){
         if(substr($no,0,1) == "0"){
             return substr_replace($no,"",0,1);
@@ -80,6 +115,15 @@ class dbAdmin extends dbConnect{
         $exe = $this->dbConn()->query($sql);
         return $exe;
     }
+    
+    public function deleteData(string $key, string $value, string $table){
+        $sql = "DELETE FROM $table WHERE $key='$value'";
+        $exe = $this->dbConn()->query($sql);
+        return $exe;
+    }
+
 }
+
+
 
 ?>

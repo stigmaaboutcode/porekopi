@@ -23,27 +23,6 @@
 
                     <div class="d-flex">
 
-                        <div class="dropdown d-inline-block d-lg-none ms-2">
-                            <button type="button" class="btn header-item noti-icon waves-effect" id="page-header-search-dropdown"
-                                data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                <i class="ri-search-line"></i>
-                            </button>
-                            <div class="dropdown-menu dropdown-menu-lg dropdown-menu-end p-0"
-                                aria-labelledby="page-header-search-dropdown">
-                    
-                                <form class="p-3">
-                                    <div class="mb-3 m-0">
-                                        <div class="input-group">
-                                            <input type="text" class="form-control" placeholder="Search ...">
-                                            <div class="input-group-append">
-                                                <button class="btn btn-primary" type="submit"><i class="ri-search-line"></i></button>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </form>
-                            </div>
-                        </div>
-
 
                         <div class="dropdown d-none d-lg-inline-block ms-1">
                             <button type="button" class="btn header-item noti-icon waves-effect" data-toggle="fullscreen">
@@ -145,7 +124,7 @@
                                 </a>
                                 <ul class="sub-menu" aria-expanded="false">
                                     <li>
-                                        <a href="#">
+                                        <a href="tambah-produk">
                                             <span>Tambah Produk</span>
                                         </a>
                                     </li>

@@ -239,9 +239,9 @@ require_once 'tentang-toko-action.php';
                                                     </div>
                                                     <?php } ?>
                                                 </div>
-                                                <div class="col-12 col-sm-2">
-                                                    <button type="submit" name="submit_alamat" class="btn button-brown" style="width: 100%;">Submit</button>
-                                                </div>
+                                            </div>
+                                            <div class="d-flex justify-content-end mt-2">
+                                                <button type="submit" name="submit_alamat" class="btn button-brown">Submit</button>
                                             </div>
                                         </form>
                                     </div>
