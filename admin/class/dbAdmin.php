@@ -122,8 +122,43 @@ class dbAdmin extends dbConnect{
         return $exe;
     }
 
+    public function addReport(string $jumlahStock, string $hpp, string $code, string $date){
+        $ket = "Produksi Stok";
+        $fee =$jumlahStock * $hpp;
+        $sql = "INSERT INTO laporan_pengeluaran (keterangan,fee,kode_stok,tgl_laporan) VALUES('$ket','$fee','$code','$date')";
+        $exe = $this->dbConn()->query($sql);
+        return $exe;
+    }
+
+    public function addStock(string $kategori, string $jenisBiji, string $jumlahStok, string $hpp, string $hj, string $user){
+        $today = date("Y-m-d");
+        $createCode = $this->createCode($today);
+        $sql = "INSERT INTO stok_produk ( kode_stok, tgl_input_stok, kategori_produk, biji_kopi, stok_kopi, hpp_per_kg, hj_per_kg, user_input )  VALUES( '$createCode', '$today', '$kategori', '$jenisBiji', '$jumlahStok', '$hpp', '$hj', '$user' )";
+        $exe = $this->dbConn()->query($sql);
+        if($exe){
+            $reportProduct = $this->addReport($jumlahStok, $hpp, $createCode, $today);
+            return $reportProduct;
+        }
+    }
+
+    public function createCode($date){
+        $sql = "SELECT kode_stok FROM stok_produk WHERE tgl_input_stok='$date'";
+        $exe = $this->dbConn()->query($sql);
+        if($exe->num_rows == 0){
+            $arrayDate = explode("-", $date);
+            $code = "PK - ".$arrayDate[2].$arrayDate[1].substr($arrayDate[0], -2)."001";
+        }else{
+            while($rows = $exe->fetch_assoc()){
+                $DBCodeStok = $rows['kode_stok'];
+            }
+            $arrayCode = explode(" - ", $DBCodeStok);
+            $newCode = ++$arrayCode[1];
+            $code = "PK - ".$newCode;
+        }
+
+        return $code;
+    }
+
 }
-
-
 
 ?>
