@@ -100,7 +100,7 @@ require_once "tambah-produk-action.php";
                                                             foreach($categorys['data'] as $category){
                                                                 $select = $category['id_kategori'] == $valueCategory ? 'selected="selected"' : '';
                                                             ?>
-                                                            <option value="<?= $category['id_kategori'] ?>" <?= $select ?>><?= ucfirst($category['nama_kategori'])  ?></option>
+                                                            <option value="<?= $category['nama_kategori'] ?>" <?= $select ?>><?= ucfirst($category['nama_kategori'])  ?></option>
                                                             <?php } ?>
                                                         </select>
                                                         <?php if($alertProduct['kategori'] != ""){ ?>
@@ -212,8 +212,13 @@ require_once "tambah-produk-action.php";
                                                         </div>
                                                     </div>
                                                 </div>
-                                                <div class="d-flex justify-content-end mt-2">
-                                                    <button type="submit" name="submit_product" class="btn button-brown">Submit</button>
+                                                <div class="d-flex justify-content-end mt-3">
+                                                    <div class="p-1">
+                                                        <button type="submit" name="submit_product" class="btn button-brown">Simpan</button>
+                                                    </div>
+                                                    <div class="p-1">
+                                                        <button type="submit" name="submit_product_and_back" class="btn btn-secondary">Simpan & Tambah Produk</button>
+                                                    </div>
                                                 </div>
                                             </div>
                                         </div>

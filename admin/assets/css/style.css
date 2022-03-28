@@ -114,3 +114,12 @@ ul li p{
 label{
     cursor: pointer;
 }
+
+.btn-group{
+    display: none;
+}
+
+thead{
+    background-color: #876445;
+    color: white;
+}

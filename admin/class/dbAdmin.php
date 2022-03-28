@@ -94,6 +94,25 @@ class dbAdmin extends dbConnect{
         }
     }
 
+    public function formatDate(string $date){
+        $daftar_hari = array(
+            'Sunday' => 'Minggu',
+            'Monday' => 'Senin',
+            'Tuesday' => 'Selasa',
+            'Wednesday' => 'Rabu',
+            'Thursday' => 'Kamis',
+            'Friday' => 'Jumat',
+            'Saturday' => 'Sabtu'
+        );
+        $namahari = date('l', strtotime($date));
+
+        $arrayDate = explode("-",$date);
+
+        $result = $daftar_hari[$namahari] . ", " . $arrayDate[2] . "-" . $arrayDate[1] . "-" . $arrayDate[0];
+        
+        return $result;
+    }
+
     public function saveContact(string $wa, string $ig, string $fb){
         $wa_new = $this->formatNoTelpn($wa);
 
@@ -122,6 +141,14 @@ class dbAdmin extends dbConnect{
         return $exe;
     }
 
+    public function checkReport($codeProduct){
+        $sql = "SELECT * FROM laporan_pengeluaran WHERE kode_stok='$codeProduct'";
+        $exe = $this->dbConn()->query($sql);
+
+        $data['nums'] = $exe->num_rows;
+        return $data;
+    }
+
     public function addReport(string $jumlahStock, string $hpp, string $code, string $date){
         $ket = "Produksi Stok";
         $fee =$jumlahStock * $hpp;
@@ -141,6 +168,58 @@ class dbAdmin extends dbConnect{
         }
     }
 
+    public function updateStock(string $jum, string $key){
+        $sql = "UPDATE stok_produk SET stok_kopi='$jum' WHERE kode_stok='$key'";
+        $exe = $this->dbConn()->query($sql);
+        return $exe;
+    }
+
+    public function checkProduct(?string $param, ?string $key, ?string $newkey){
+        $sql = "SELECT * FROM stok_produk ORDER BY id_stok DESC";
+        if($param == "checkToDel"){
+            $sql = "SELECT * FROM stok_produk WHERE kode_stok='$key'";
+        }elseif($param == "searchh"){
+            $like = $key."%";
+            $like2 = "%".$key."%";
+            $like3 = "%".$key;
+            $sql = "SELECT * FROM stok_produk WHERE 
+            kode_stok LIKE '$like' OR 
+            tgl_input_stok LIKE '$like' OR 
+            kategori_produk LIKE '$like' OR 
+            biji_kopi LIKE '$like' OR 
+            stok_kopi LIKE '$like' OR 
+            hpp_per_kg LIKE '$like' OR 
+            hj_per_kg LIKE '$like' OR
+            kode_stok LIKE '$like2' OR 
+            tgl_input_stok LIKE '$like2' OR 
+            kategori_produk LIKE '$like2' OR 
+            biji_kopi LIKE '$like2' OR 
+            stok_kopi LIKE '$like2' OR 
+            hpp_per_kg LIKE '$like2' OR 
+            hj_per_kg LIKE '$like2' OR
+            kode_stok LIKE '$like3' OR 
+            tgl_input_stok LIKE '$like3' OR 
+            kategori_produk LIKE '$like3' OR 
+            biji_kopi LIKE '$like3' OR
+            stok_kopi LIKE '$like3' OR 
+            hpp_per_kg LIKE '$like3' OR 
+            hj_per_kg LIKE '$like3'
+            ORDER BY id_stok DESC";
+        }elseif($param == "addstock"){
+            $sql = "SELECT kode_stok, stok_kopi, hpp_per_kg FROM stok_produk WHERE id_stok='$key'";
+        }
+        $exe = $this->dbConn()->query($sql);
+        $nums = $exe->num_rows;
+        while($rows = $exe->fetch_assoc()){
+            $data[] = $rows;
+        }
+        
+        $result['data'] = $data;
+        $result['nums'] = $nums;
+
+        return $result;
+    }
+
     public function createCode($date){
         $sql = "SELECT kode_stok FROM stok_produk WHERE tgl_input_stok='$date'";
         $exe = $this->dbConn()->query($sql);
@@ -157,6 +236,15 @@ class dbAdmin extends dbConnect{
         }
 
         return $code;
+    }
+
+    public function checkToDelete($code){
+        $checkReporting = $this->checkReport($code);
+        if($checkReporting['nums'] > 1){
+            return false;
+        }else{
+            return true;
+        }
     }
 
 }
