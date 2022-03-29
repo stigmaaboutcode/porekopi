@@ -111,7 +111,7 @@
                                         </a>
                                     </li>
                                     <li>
-                                        <a href="#">
+                                        <a href="laporan-pengeluaran">
                                             <span>Pengeluaran</span>
                                         </a>
                                     </li>

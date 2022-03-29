@@ -9,25 +9,6 @@ $_SESSION['revious_page'] = explode('.',$_SERVER['PHP_SELF'])[0];
 
 $key = $_GET['key'];
 
-if(!is_null($key) || $key != ""){
-    $checkToDel = $admin->checkProduct("checkToDel", $key, null);
-    if($checkToDel['nums'] > 0){
-        $exeDel = $admin->deleteData("kode_stok", $key, "stok_produk");
-        if($exeDel){
-            $exeDelReporting = $admin->deleteData("kode_stok", $key, "laporan_pengeluaran");
-            if($exeDelReporting){
-                $_SESSION['alert2'] = "success";
-                header('Location: daftar-produk');
-                exit();
-            }
-        }
-    }else{
-        header('Location: daftar-produk');
-        exit();
-    }
-}
-
-include_once "daftar-produk-action.php";
 
 ?>
 
@@ -37,7 +18,7 @@ include_once "daftar-produk-action.php";
     <head>
         
         <meta charset="utf-8" />
-        <title>Daftar Produk | Pore Kopi</title>
+        <title> Laporan Pengeluaran | Pore Kopi</title>
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <meta content="PoreKopi" name="author"/>
 
@@ -92,12 +73,12 @@ include_once "daftar-produk-action.php";
                         <div class="row">
                             <div class="col-12">
                                 <div class="page-title-box d-sm-flex align-items-center justify-content-between">
-                                    <h4 class="mb-sm-0">Daftar Produk</h4>
+                                    <h4 class="mb-sm-0">Laporan Pengeluaran</h4>
 
                                     <div class="page-title-right">
                                         <ol class="breadcrumb m-0">
-                                            <li class="breadcrumb-item"><a href="javascript: void(0);">Produk</a></li>
-                                            <li class="breadcrumb-item active">Daftar Produk</li>
+                                            <li class="breadcrumb-item"><a href="javascript: void(0);">Laporan</a></li>
+                                            <li class="breadcrumb-item active">Pengeluaran</li>
                                         </ol>
                                     </div>
 
@@ -108,21 +89,54 @@ include_once "daftar-produk-action.php";
                         
                         <form action="" method="post">
                             <div class="row">
+                                <div class="col-12">
+                                    <div class="card">
+                                        <div class="card-header">Filter Data</div>
+                                        <div class="card-body">
+                                            <div class="row">
+                                                <div class="col-sm-5 mb-4">
+                                                    <label for="dari" class="form-label">Dari</label>
+                                                    <input type="date" class="form-control" name="dari" id="dari">
+                                                </div>
+                                                <div class="col-sm-7">
+                                                    <div class="row">
+                                                        <div class="col-12">
+                                                            <label for="sampai" class="form-label">Sampai</label>
+                                                        </div>
+                                                    </div>
+                                                    <div class="row">
+                                                        <div class="col-12 mb-4 col-sm-8">
+                                                            <input type="date" class="form-control" name="sampai" id="sampai">
+                                                        </div>
+                                                        <div class="col-12 col-sm-4">
+                                                            <button type="submit" style="width: 100%;" name="filter_data" class="btn button-brown">Cari</button>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <!-- <div class="col-sm-2">
+                                                    
+                                                </div> -->
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
 
                                 <!-- data -->
-                                    <div class="col-12">
+                                    <div  class="col-12">
                                         <div class="card">
                                             <div class="card-body">
                                                 <div class="card-title title-kategori">
                                                     <div class="row height d-flex align-items-center">
                                                         <div class="col-md-8 col-sm-6">
-                                                            <h6>Produk</h6>
+                                                            <h6>Data Pengeluaran</h6>
                                                         </div>
-                                                        <div  class="col-md-4 col-sm-6">
+                                                        <!-- <div  class="col-md-4 col-sm-6">
                                                             <div class="search"> 
                                                                 <i class="fa fa-search"></i> <input type="text" value="<?= $_POST['search'] ?>" name="search" class="form-control" placeholder="Search produk . . ."> <button type="submit" name="actionTosearch" class="btn btn-primary">Search</button> 
                                                             </div>
-                                                        </div>
+                                                        </div> -->
                                                     </div>
                                                     <hr>
                                                 </div>
@@ -131,54 +145,27 @@ include_once "daftar-produk-action.php";
                                                         <table id="tech-companies-1" class="table table-hover">
                                                             <thead>
                                                                 <tr>
-                                                                    <th>Kode</th>
-                                                                    <th>Kategori</th>
-                                                                    <th>Jenis Biji</th>
-                                                                    <th>HPP (Rp)</th>
-                                                                    <th>Stok (Kg)</th>
-                                                                    <th>Harga (Rp) / Kg</th>
-                                                                    <th>Total Harga (Rp)</th>
-                                                                    <th>Aksi</th>
+                                                                    <th>Keterangan</th>
+                                                                    <th>Biaya (Rp)</th>
+                                                                    <th>Kode Produk</th>
+                                                                    <th>Tanggal</th>
+                                                                    <th>Waktu</th>
                                                                 </tr>
                                                             </thead>
                                                             <tbody>
                                                                 <?php  
-                                                                $dataProduct = $admin->checkProduct(null, null, null);
-                                                                $empty = "Data Produk Masih Kosong";
-                                                                if(isset($_POST['actionTosearch'])){
-                                                                    $dataProduct = $admin->checkProduct("searchh", $_POST['search'], null);
-                                                                    $empty ='"' . $_POST['search'] . '" Tidak ditemukan';
-                                                                }
-
-                                                                if($dataProduct['nums'] == 0){
+                                                                $reportData = $admin->checkReport(null, "view");
+                                                                foreach($reportData['data'] as $row){
+                                                                    $arrayDate = explode(" ", $row['tgl_laporan']);
                                                                 ?>
-                                                                <tr align="center">
-                                                                    <td colspan="8"><h4><?= $empty ?></h4></td>
-                                                                </tr>
-                                                                <?php
-                                                                }else{
-                                                                    foreach($dataProduct['data'] as $product){
-                                                                ?>
-                                                                        <tr>
-                                                                            <td><?= $product['kode_stok'] ?></td>
-                                                                            <td><?= ucfirst($product['kategori_produk']) ?></td>
-                                                                            <td><?= $product['biji_kopi'] ?></td>
-                                                                            <td><?= number_format($product['hpp_per_kg'],2,".",",") ?></td>
-                                                                            <td><?= $product['stok_kopi'] ?></td>
-                                                                            <td><?= number_format($product['hj_per_kg'],2,".",",") ?></td>
-                                                                            <td><?= number_format($product['stok_kopi'] * $product['hj_per_kg'],2,".",",") ?></td>
-                                                                            <td>                                                                                
-                                                                                <?php  
-                                                                                    if($admin->checkToDelete($product['kode_stok'])){
-                                                                                ?>
-                                                                                    <a href="daftar-produk?key=<?= $product['kode_stok'] ?>" id="delete"><i class="mdi mdi-delete browns-text" data-bs-toggle="tooltip" data-bs-placement="top" title="Delete"></i></a>
-                                                                                <?php } ?>
-                                                                                
-                                                                                <a href="#add_stok<?= $product['id_stok'] ?>" data-bs-toggle="modal"><i class="mdi mdi-plus-box-outline browns-text" data-bs-toggle="tooltip" data-bs-placement="top" title="Tambah Stok"></i></a>
-                                                                            </td>
-                                                                        </tr>
+                                                                    <tr>
+                                                                        <td><?= $row['keterangan'] ?></td>
+                                                                        <td><?= number_format($row['fee'],2) ?></td>
+                                                                        <td><?= $row['kode_stok'] ?></td>
+                                                                        <td><?= $admin->formatDate($arrayDate[0]) ?></td>
+                                                                        <td><?= $arrayDate[1] ?></td>
+                                                                    </tr>
                                                                 <?php  
-                                                                    }
                                                                 }
                                                                 ?>
                                                             </tbody>
@@ -197,40 +184,6 @@ include_once "daftar-produk-action.php";
 
                     </div> <!-- container-fluid -->
                 </div>
-
-                <!-- modal -->
-                <?php  
-                $dataProduct = $admin->checkProduct(null, null, null);
-                if($dataProduct['nums'] > 0){
-                    foreach($dataProduct['data'] as $product){
-                ?>
-                    <div class="modal fade" id="add_stok<?= $product['id_stok'] ?>" tabindex="-1" data-bs-backdrop="static">
-                        <div class="modal-dialog modal-dialog-centered">
-                            <form action="" method="post" class="modal-content">
-                                <div class="modal-header">
-                                    <h5 class="modal-title">Tambah Stok Produk</h5>
-                                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                                </div>
-                                <div class="modal-body">
-                                    <!-- <p>Modal body text goes here.</p> -->
-                                    <div class="form-floating mb-3">
-                                        <input type="hidden" name="id" value="<?= $product['id_stok'] ?>">
-                                        <input type="number" min="1" class="form-control" required name="stok" id="stok" placeholder="stok">
-                                        <label for="stok">Jumlah Stok (Kg)</label>
-                                    </div>
-                                </div>
-                                <div class="modal-footer">
-                                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Batal</button>
-                                    <button type="submit" name="addStock" class="btn button-brown">Simpan</button>
-                                </div>
-                            </form>
-                        </div>
-                    </div>
-                <?php  
-                    }
-                }
-                ?>
-                <!-- modal end -->
 
                 <!-- End Page-content -->
                 

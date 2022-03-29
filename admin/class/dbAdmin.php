@@ -141,12 +141,19 @@ class dbAdmin extends dbConnect{
         return $exe;
     }
 
-    public function checkReport($codeProduct){
+    public function checkReport(?string $codeProduct, string $param = ""){
         $sql = "SELECT * FROM laporan_pengeluaran WHERE kode_stok='$codeProduct'";
+        if($param == "view"){
+            $sql = "SELECT * FROM laporan_pengeluaran ORDER BY id DESC";
+        }
+        
         $exe = $this->dbConn()->query($sql);
-
-        $data['nums'] = $exe->num_rows;
-        return $data;
+        while($rows = $exe->fetch_assoc()){
+            $data[] = $rows;
+        }
+        $result['data'] = $data;
+        $result['nums'] = $exe->num_rows;
+        return $result;
     }
 
     public function addReport(string $jumlahStock, string $hpp, string $code, string $date){
@@ -158,9 +165,13 @@ class dbAdmin extends dbConnect{
     }
 
     public function addStock(string $kategori, string $jenisBiji, string $jumlahStok, string $hpp, string $hj, string $user){
-        $today = date("Y-m-d");
+        $timezone = new DateTimeZone('Asia/Makassar');
+        $date = new DateTime();
+        $date->setTimeZone($timezone);
+        $today = $date->format('Y-m-d H:i:s');
+
         $createCode = $this->createCode($today);
-        $sql = "INSERT INTO stok_produk ( kode_stok, tgl_input_stok, kategori_produk, biji_kopi, stok_kopi, hpp_per_kg, hj_per_kg, user_input )  VALUES( '$createCode', '$today', '$kategori', '$jenisBiji', '$jumlahStok', '$hpp', '$hj', '$user' )";
+        $sql = "INSERT INTO stok_produk ( kode_stok, kategori_produk, biji_kopi, stok_kopi, hpp_per_kg, hj_per_kg, user_input, tgl_input_stok )  VALUES( '$createCode', '$kategori', '$jenisBiji', '$jumlahStok', '$hpp', '$hj', '$user', '$today' )";
         $exe = $this->dbConn()->query($sql);
         if($exe){
             $reportProduct = $this->addReport($jumlahStok, $hpp, $createCode, $today);
@@ -221,18 +232,19 @@ class dbAdmin extends dbConnect{
     }
 
     public function createCode($date){
-        $sql = "SELECT kode_stok FROM stok_produk WHERE tgl_input_stok='$date'";
+        $month = date("m");
+        $sql = "SELECT kode_stok FROM stok_produk WHERE month(tgl_input_stok)='$month'";
         $exe = $this->dbConn()->query($sql);
         if($exe->num_rows == 0){
             $arrayDate = explode("-", $date);
-            $code = "PK - ".$arrayDate[2].$arrayDate[1].substr($arrayDate[0], -2)."001";
+            $code = "PK-".$arrayDate[1].substr($arrayDate[0], -2)."001";
         }else{
             while($rows = $exe->fetch_assoc()){
                 $DBCodeStok = $rows['kode_stok'];
             }
-            $arrayCode = explode(" - ", $DBCodeStok);
+            $arrayCode = explode("-", $DBCodeStok);
             $newCode = ++$arrayCode[1];
-            $code = "PK - ".$newCode;
+            $code = "PK-0".$newCode;
         }
 
         return $code;
@@ -240,8 +252,16 @@ class dbAdmin extends dbConnect{
 
     public function checkToDelete($code){
         $checkReporting = $this->checkReport($code);
-        if($checkReporting['nums'] > 1){
-            return false;
+        $getStock = $this->checkProduct("checkToDel", $code, null);
+        foreach($getStock['data'] as $stock){
+            $countStock = $stock['stok_kopi'];
+        }
+        if($countStock > 0){
+            if($checkReporting['nums'] > 1){
+                return false;
+            }else{
+                return true;
+            }
         }else{
             return true;
         }

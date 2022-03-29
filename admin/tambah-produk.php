@@ -98,7 +98,7 @@ require_once "tambah-produk-action.php";
                                                             $valueCategory = $_POST['kategori'];
                                                             $categorys = $admin->checkCategory(null, "select", null);
                                                             foreach($categorys['data'] as $category){
-                                                                $select = $category['id_kategori'] == $valueCategory ? 'selected="selected"' : '';
+                                                                $select = $category['nama_kategori'] == $valueCategory ? 'selected="selected"' : '';
                                                             ?>
                                                             <option value="<?= $category['nama_kategori'] ?>" <?= $select ?>><?= ucfirst($category['nama_kategori'])  ?></option>
                                                             <?php } ?>

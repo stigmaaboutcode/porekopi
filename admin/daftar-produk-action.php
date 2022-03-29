@@ -12,8 +12,12 @@ if(isset($_POST['addStock'])){
     $totalStock = $jumStock + $stock;
     $addStockToDB = $admin->updateStock($totalStock, $kode);
     if($addStockToDB){
-        $date = date("Y-m-d");
-        $addReporting = $admin->addReport($jumStock, $hpp, $kode, $date);
+        $timezone = new DateTimeZone('Asia/Makassar');
+        $date = new DateTime();
+        $date->setTimeZone($timezone);
+        $today = $date->format('Y-m-d H:i:s');
+
+        $addReporting = $admin->addReport($jumStock, $hpp, $kode, $today);
         if($addReporting){
             $_SESSION['alert2'] = "success";
             header('Location: daftar-produk');
