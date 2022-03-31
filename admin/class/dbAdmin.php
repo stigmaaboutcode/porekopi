@@ -141,10 +141,23 @@ class dbAdmin extends dbConnect{
         return $exe;
     }
 
-    public function checkReport(?string $codeProduct, string $param = ""){
+    public function checkReport(?string $codeProduct, string $param = "", string $dari = "", string $sampai = ""){
         $sql = "SELECT * FROM laporan_pengeluaran WHERE kode_stok='$codeProduct'";
         if($param == "view"){
-            $sql = "SELECT * FROM laporan_pengeluaran ORDER BY id DESC";
+            $month = date('m');
+            $sql = "SELECT * FROM laporan_pengeluaran WHERE month(tgl_laporan)='$month' ORDER BY id DESC";
+        }elseif($param == "filter_date"){
+            $sql = "SELECT * FROM laporan_pengeluaran WHERE tgl_laporan BETWEEN '$dari' AND '$sampai' ORDER BY id DESC";
+        }elseif($param == "search"){
+            $sql = "SELECT * FROM laporan_pengeluaran WHERE
+            ( tgl_laporan BETWEEN '$dari' AND '$sampai') AND
+            ( fee LIKE '%$codeProduct' OR
+            kode_stok LIKE '%$codeProduct' OR
+            fee LIKE '%$codeProduct%' OR
+            kode_stok LIKE '%$codeProduct%' OR
+            fee LIKE '$codeProduct%' OR
+            kode_stok LIKE '$codeProduct%' ) ORDER BY id DESC";
+
         }
         
         $exe = $this->dbConn()->query($sql);

@@ -144,6 +144,12 @@
                             <li class="menu-title">Pengaturan</li>
 
                             <li>
+                                <a href="pelanggan-toko" class="waves-effect">
+                                    <i class="ri-user-line"></i>
+                                    <span>Pelanggan Toko</span>
+                                </a>
+                            </li> 
+                            <li>
                                 <a href="tentang-toko" class="waves-effect">
                                     <i class="ri-settings-2-line"></i>
                                     <span>Tentang Toko</span>

@@ -9,6 +9,9 @@ $_SESSION['revious_page'] = explode('.',$_SERVER['PHP_SELF'])[0];
 
 $key = $_GET['key'];
 
+include_once "laporan-pengeluaran-action.php"; 
+
+
 
 ?>
 
@@ -93,10 +96,21 @@ $key = $_GET['key'];
                                     <div class="card">
                                         <div class="card-header">Filter Data</div>
                                         <div class="card-body">
+                                            <?php  
+                                            // dari check
+                                            $dariDate = date("Y-m") . "-01";
+                                            
+                                            // // sampai check
+                                            $kalender = CAL_GREGORIAN;
+                                            $month = date('m');
+                                            $year = date('Y');
+
+                                            $sampaiDate = date("Y-m") . "-" . cal_days_in_month($kalender, $month, $year);
+                                            ?>
                                             <div class="row">
                                                 <div class="col-sm-5 mb-4">
                                                     <label for="dari" class="form-label">Dari</label>
-                                                    <input type="date" class="form-control" name="dari" id="dari">
+                                                    <input type="date" class="form-control" name="dari" require_once value="<?= isset($_POST['filter_data']) || isset($_POST['actionTosearch']) ? date("Y-m-d", strtotime($_POST['dari'])) : date("Y-m-d", strtotime($dariDate)) ?>" id="dari">
                                                 </div>
                                                 <div class="col-sm-7">
                                                     <div class="row">
@@ -106,10 +120,10 @@ $key = $_GET['key'];
                                                     </div>
                                                     <div class="row">
                                                         <div class="col-12 mb-4 col-sm-8">
-                                                            <input type="date" class="form-control" name="sampai" id="sampai">
+                                                            <input type="date" class="form-control" name="sampai" required value="<?= isset($_POST['filter_data']) || isset($_POST['actionTosearch']) ? date("Y-m-d", strtotime($_POST['sampai'])) : date("Y-m-d", strtotime($sampaiDate)) ?>" id="sampai">
                                                         </div>
                                                         <div class="col-12 col-sm-4">
-                                                            <button type="submit" style="width: 100%;" name="filter_data" class="btn button-brown">Cari</button>
+                                                            <button type="submit" style="width: 100%;" name="filter_data" class="btn button-brown"><i class="fa fa-search"></i> search</button>
                                                         </div>
                                                     </div>
                                                 </div>
@@ -132,11 +146,11 @@ $key = $_GET['key'];
                                                         <div class="col-md-8 col-sm-6">
                                                             <h6>Data Pengeluaran</h6>
                                                         </div>
-                                                        <!-- <div  class="col-md-4 col-sm-6">
+                                                        <div  class="col-md-4 col-sm-6">
                                                             <div class="search"> 
-                                                                <i class="fa fa-search"></i> <input type="text" value="<?= $_POST['search'] ?>" name="search" class="form-control" placeholder="Search produk . . ."> <button type="submit" name="actionTosearch" class="btn btn-primary">Search</button> 
+                                                                <i class="fa fa-search"></i> <input type="text" value="<?= isset($_POST['actionTosearch']) ? $_POST['search'] : '' ?>" name="search" class="form-control" placeholder="Search produk . . ."> <button type="submit" name="actionTosearch" class="btn btn-primary">Search</button> 
                                                             </div>
-                                                        </div> -->
+                                                        </div>
                                                     </div>
                                                     <hr>
                                                 </div>
@@ -153,9 +167,9 @@ $key = $_GET['key'];
                                                                 </tr>
                                                             </thead>
                                                             <tbody>
-                                                                <?php  
-                                                                $reportData = $admin->checkReport(null, "view");
-                                                                foreach($reportData['data'] as $row){
+                                                                <?php
+                                                                if($reportData['nums'] > 0){
+                                                                    foreach($reportData['data'] as $row){
                                                                     $arrayDate = explode(" ", $row['tgl_laporan']);
                                                                 ?>
                                                                     <tr>
@@ -165,6 +179,13 @@ $key = $_GET['key'];
                                                                         <td><?= $admin->formatDate($arrayDate[0]) ?></td>
                                                                         <td><?= $arrayDate[1] ?></td>
                                                                     </tr>
+                                                                <?php  
+                                                                    }
+                                                                }else{
+                                                                ?>
+                                                                <tr align="center">
+                                                                    <td colspan="5"><h6><?= $emptyNotif ?></h6></td>
+                                                                </tr>
                                                                 <?php  
                                                                 }
                                                                 ?>
