@@ -21,6 +21,7 @@ class dbAdmin extends dbConnect{
         return $result;
     }
 
+    // get data addresss store
     public function checkAddress(){
         $sql = "SELECT * FROM alamat_store WHERE id='1'";
         $exe = $this->dbConn()->query($sql);
@@ -35,6 +36,18 @@ class dbAdmin extends dbConnect{
         return $result;
     }
 
+    // save and update address store
+    public function saveAddress(string $prov, string $kab, string $kec, string $pos, string $alamat){
+        if($this->checkAddress()['nums'] > 0){
+            $sql = "UPDATE alamat_store SET prov='$prov', kab='$kab', kec='$kec', pos='$pos', detail='$alamat' WHERE id='1'";
+        }else{
+            $sql = "INSERT INTO alamat_store (prov,kab,kec,pos,detail) VALUES('$prov','$kab','$kec','$pos','$alamat')";
+        }
+        $exe = $this->dbConn()->query($sql);
+        return $exe;
+    }
+
+    // get data contact store
     public function checkContact(){
         $sql = "SELECT * FROM kontak_store WHERE id='1'";
         $exe = $this->dbConn()->query($sql);
@@ -49,6 +62,20 @@ class dbAdmin extends dbConnect{
         return $result;
     }
 
+    // save and update contact store
+    public function saveContact(string $wa, string $ig, string $fb){
+        $wa_new = $this->formatNoTelpn($wa);
+
+        if($this->checkContact()['nums'] > 0){
+            $sql = "UPDATE kontak_store SET wa='$wa_new', ig='$ig', fb='$fb' WHERE id='1'";
+        }else{
+            $sql = "INSERT INTO kontak_store (wa,ig,fb) VALUES('$wa_new','$ig','$fb')";
+        }
+        $exe = $this->dbConn()->query($sql);
+        return $exe;
+    }
+
+    // get data category stock product
     public function checkCategory(?string $name, ?string $param, ?string $newName){
         $sql = "SELECT * FROM kategori_produk LIMIT 3";
         if(is_null($param)){
@@ -70,12 +97,14 @@ class dbAdmin extends dbConnect{
         return $result;
     }
 
+    // insert data category stock product
     public function InsertCategory(string $fotoName, string $kategoriName){
         $sql = "INSERT INTO kategori_produk (nama_kategori,foto_kategori) VALUES('$kategoriName','$fotoName')";
         $exe = $this->dbConn()->query($sql);
         return $exe;
     }
 
+    // update data category stock producy
     public function UpdateCategory(string $param, ?string $name, ?string $image, ?string $key){
         if($param == "withImg"){
             $sql = "UPDATE kategori_produk SET nama_kategori='$name', foto_kategori='$image' WHERE nama_kategori='$key'";
@@ -84,63 +113,7 @@ class dbAdmin extends dbConnect{
         return $exe;
     }
 
-    public function formatNoTelpn(string $no){
-        if(substr($no,0,1) == "0"){
-            return substr_replace($no,"",0,1);
-        }elseif(substr($no,0,2) == "62"){
-            return substr_replace($no,"",0,2);
-        }else{
-            return $no;
-        }
-    }
-
-    public function formatDate(string $date){
-        $daftar_hari = array(
-            'Sunday' => 'Minggu',
-            'Monday' => 'Senin',
-            'Tuesday' => 'Selasa',
-            'Wednesday' => 'Rabu',
-            'Thursday' => 'Kamis',
-            'Friday' => 'Jumat',
-            'Saturday' => 'Sabtu'
-        );
-        $namahari = date('l', strtotime($date));
-
-        $arrayDate = explode("-",$date);
-
-        $result = $daftar_hari[$namahari] . ", " . $arrayDate[2] . "-" . $arrayDate[1] . "-" . $arrayDate[0];
-        
-        return $result;
-    }
-
-    public function saveContact(string $wa, string $ig, string $fb){
-        $wa_new = $this->formatNoTelpn($wa);
-
-        if($this->checkContact()['nums'] > 0){
-            $sql = "UPDATE kontak_store SET wa='$wa_new', ig='$ig', fb='$fb' WHERE id='1'";
-        }else{
-            $sql = "INSERT INTO kontak_store (wa,ig,fb) VALUES('$wa_new','$ig','$fb')";
-        }
-        $exe = $this->dbConn()->query($sql);
-        return $exe;
-    }
-
-    public function saveAddress(string $prov, string $kab, string $kec, string $pos, string $alamat){
-        if($this->checkAddress()['nums'] > 0){
-            $sql = "UPDATE alamat_store SET prov='$prov', kab='$kab', kec='$kec', pos='$pos', detail='$alamat' WHERE id='1'";
-        }else{
-            $sql = "INSERT INTO alamat_store (prov,kab,kec,pos,detail) VALUES('$prov','$kab','$kec','$pos','$alamat')";
-        }
-        $exe = $this->dbConn()->query($sql);
-        return $exe;
-    }
-    
-    public function deleteData(string $key, string $value, string $table){
-        $sql = "DELETE FROM $table WHERE $key='$value'";
-        $exe = $this->dbConn()->query($sql);
-        return $exe;
-    }
-
+    // get data expense store
     public function checkReport(?string $codeProduct, string $param = "", string $dari = "", string $sampai = ""){
         $sql = "SELECT * FROM laporan_pengeluaran WHERE kode_stok='$codeProduct'";
         if($param == "view"){
@@ -169,6 +142,7 @@ class dbAdmin extends dbConnect{
         return $result;
     }
 
+    // insert data expense store
     public function addReport(string $jumlahStock, string $hpp, string $code, string $date){
         $ket = "Produksi Stok";
         $fee =$jumlahStock * $hpp;
@@ -177,27 +151,7 @@ class dbAdmin extends dbConnect{
         return $exe;
     }
 
-    public function addStock(string $kategori, string $jenisBiji, string $jumlahStok, string $hpp, string $hj, string $user){
-        $timezone = new DateTimeZone('Asia/Makassar');
-        $date = new DateTime();
-        $date->setTimeZone($timezone);
-        $today = $date->format('Y-m-d H:i:s');
-
-        $createCode = $this->createCode($today);
-        $sql = "INSERT INTO stok_produk ( kode_stok, kategori_produk, biji_kopi, stok_kopi, hpp_per_kg, hj_per_kg, user_input, tgl_input_stok )  VALUES( '$createCode', '$kategori', '$jenisBiji', '$jumlahStok', '$hpp', '$hj', '$user', '$today' )";
-        $exe = $this->dbConn()->query($sql);
-        if($exe){
-            $reportProduct = $this->addReport($jumlahStok, $hpp, $createCode, $today);
-            return $reportProduct;
-        }
-    }
-
-    public function updateStock(string $jum, string $key){
-        $sql = "UPDATE stok_produk SET stok_kopi='$jum' WHERE kode_stok='$key'";
-        $exe = $this->dbConn()->query($sql);
-        return $exe;
-    }
-
+    // get data stock product
     public function checkProduct(?string $param, ?string $key, ?string $newkey){
         $sql = "SELECT * FROM stok_produk ORDER BY id_stok DESC";
         if($param == "checkToDel"){
@@ -244,6 +198,80 @@ class dbAdmin extends dbConnect{
         return $result;
     }
 
+    // insert data stock product
+    public function addStock(string $kategori, string $jenisBiji, string $jumlahStok, string $hpp, string $hj, string $user){
+        $timezone = new DateTimeZone('Asia/Makassar');
+        $date = new DateTime();
+        $date->setTimeZone($timezone);
+        $today = $date->format('Y-m-d H:i:s');
+
+        $createCode = $this->createCode($today);
+        $sql = "INSERT INTO stok_produk ( kode_stok, kategori_produk, biji_kopi, stok_kopi, hpp_per_kg, hj_per_kg, user_input, tgl_input_stok )  VALUES( '$createCode', '$kategori', '$jenisBiji', '$jumlahStok', '$hpp', '$hj', '$user', '$today' )";
+        $exe = $this->dbConn()->query($sql);
+        if($exe){
+            $reportProduct = $this->addReport($jumlahStok, $hpp, $createCode, $today);
+            return $reportProduct;
+        }
+    }
+
+    // update data stock product
+    public function updateStock(string $jum, string $key){
+        $sql = "UPDATE stok_produk SET stok_kopi='$jum' WHERE kode_stok='$key'";
+        $exe = $this->dbConn()->query($sql);
+        return $exe;
+    }
+
+
+    // get data customer
+    public function checkCustomer(?string $param, ?string $key, string $keyEDIT = ""){
+        $sql = "SELECT * FROM customer_store ORDER BY name_customer ASC";
+        
+        if($param == "checkById"){
+            $sql = "SELECT * FROM customer_store WHERE id_customer='$key' ORDER BY name_customer ASC";
+        }elseif($param == "checkByEmail"){
+            $sql = "SELECT email_customer FROM customer_store WHERE email_customer='$key'";
+        }elseif($param == "checkByEmailEdit"){
+            $sql = "SELECT email_customer FROM customer_store WHERE email_customer<>'$keyEDIT' AND email_customer='$key'";
+        }
+        
+        $exe = $this->dbConn()->query($sql);
+        $nums = $exe->num_rows;
+        while($row = $exe->fetch_assoc()){
+            $data[] = $row;
+        }
+
+        $result['data'] = $data;
+        $result['nums'] = $nums;
+
+        return $result;
+    }
+
+    // insert data customer
+    public function addCustomer(string $name, string $email, string $gender, string $no, string $prov, string $kab, string $kec, string $alamat){
+        $sql = "INSERT INTO customer_store (
+            name_customer,
+            email_customer,
+            no_telp_customer,
+            gender_customer,
+            alamat_customer,
+            prov_customer,
+            kab_kota_customer,
+            kec_customer) VALUES('$name','$email','$no','$gender','$alamat','$prov','$kab','$kec')";
+        $exe = $this->dbConn()->query($sql);
+
+        return $exe;
+    }
+
+    // update data customer
+    public function UpdateCustomer(string $name, string $email, string $gender, string $no, string $prov, string $kab, string $kec, string $alamat, string $key){
+        $sql = "UPDATE customer_store SET name_customer = '$name', email_customer = '$email', no_telp_customer = '$no', gender_customer = '$gender', alamat_customer = '$alamat', prov_customer = '$prov', kab_kota_customer = '$kab', kec_customer = '$kec' WHERE id_customer = '$key'";
+
+        $exe = $this->dbConn()->query($sql);
+
+        return $exe;
+    }
+
+    // fonction to create code product 
     public function createCode($date){
         $month = date("m");
         $sql = "SELECT kode_stok FROM stok_produk WHERE month(tgl_input_stok)='$month'";
@@ -263,6 +291,7 @@ class dbAdmin extends dbConnect{
         return $code;
     }
 
+    // function for hide button delete on data product 
     public function checkToDelete($code){
         $checkReporting = $this->checkReport($code);
         $getStock = $this->checkProduct("checkToDel", $code, null);
@@ -278,6 +307,55 @@ class dbAdmin extends dbConnect{
         }else{
             return true;
         }
+    }
+
+    // format phone number remove 0
+    public function formatNoTelpn(string $no){
+        if(substr($no,0,1) == "0"){
+            return substr_replace($no,"",0,1);
+        }elseif(substr($no,0,2) == "62"){
+            return substr_replace($no,"",0,2);
+        }else{
+            return $no;
+        }
+    }
+
+    // format name
+    public function formatName(string $name){
+        $arrayName = explode(" ", $name);
+        $newFormat = "";
+        foreach($arrayName as $name){
+            $newFormat .= ucfirst($name) . " "; 
+        }
+
+        return trim($newFormat);
+    }
+
+    // format date with name of the day
+    public function formatDate(string $date){
+        $daftar_hari = array(
+            'Sunday' => 'Minggu',
+            'Monday' => 'Senin',
+            'Tuesday' => 'Selasa',
+            'Wednesday' => 'Rabu',
+            'Thursday' => 'Kamis',
+            'Friday' => 'Jumat',
+            'Saturday' => 'Sabtu'
+        );
+        $namahari = date('l', strtotime($date));
+
+        $arrayDate = explode("-",$date);
+
+        $result = $daftar_hari[$namahari] . ", " . $arrayDate[2] . "-" . $arrayDate[1] . "-" . $arrayDate[0];
+        
+        return $result;
+    }
+    
+    // delete function every table data
+    public function deleteData(string $key, string $value, string $table){
+        $sql = "DELETE FROM $table WHERE $key='$value'";
+        $exe = $this->dbConn()->query($sql);
+        return $exe;
     }
 
 }

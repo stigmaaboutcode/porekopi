@@ -7,7 +7,23 @@ if($_SESSION['login_store_pore'] != true){
 }
 $_SESSION['revious_page'] = explode('.',$_SERVER['PHP_SELF'])[0];
 
-include_once "laporan-pengeluaran-action.php"; 
+$customer = $_GET['key'];
+
+if($customer != ""){
+    $checkCustomer = $admin->checkCustomer("checkById", $customer);
+    if($checkCustomer['nums'] > 0){
+        $deleteCustomer = $admin->deleteData("id_customer", $customer, "customer_store");
+        if($deleteCustomer){
+            $_SESSION['alert2'] = "success";
+            header('Location: pelanggan-toko');
+            exit();
+        }
+    }else{
+        header('Location: pelanggan-toko');
+        exit();
+    }
+}
+
 
 
 
@@ -19,7 +35,7 @@ include_once "laporan-pengeluaran-action.php";
     <head>
         
         <meta charset="utf-8" />
-        <title> Laporan Pengeluaran | Pore Kopi</title>
+        <title> Data Pelanggan | Pore Kopi</title>
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <meta content="PoreKopi" name="author"/>
 
@@ -47,6 +63,7 @@ include_once "laporan-pengeluaran-action.php";
         <!-- jquery -->
         <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js" integrity="sha512-894YE6QWD5I59HgZOGReFYm4dnWc1Qt5NtvYSaNcOP+u1T9qYdvdihz0PPSiiqn/+/3e7Jo4EaG7TubfWGUrMQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 
+
     </head>
 
     <body data-sidebar="dark">
@@ -72,12 +89,12 @@ include_once "laporan-pengeluaran-action.php";
                         <div class="row">
                             <div class="col-12">
                                 <div class="page-title-box d-sm-flex align-items-center justify-content-between">
-                                    <h4 class="mb-sm-0">Laporan Pengeluaran</h4>
+                                    <h4 class="mb-sm-0">Data Pelanggan</h4>
 
                                     <div class="page-title-right">
                                         <ol class="breadcrumb m-0">
-                                            <li class="breadcrumb-item"><a href="javascript: void(0);">Laporan</a></li>
-                                            <li class="breadcrumb-item active">Pengeluaran</li>
+                                            <li class="breadcrumb-item"><a href="javascript: void(0);">Pelanggan Toko</a></li>
+                                            <li class="breadcrumb-item active">Data Pelanggan</li>
                                         </ol>
                                     </div>
 
@@ -88,50 +105,6 @@ include_once "laporan-pengeluaran-action.php";
                         
                         <form action="" method="post">
                             <div class="row">
-                                <div class="col-12">
-                                    <div class="card">
-                                        <div class="card-header">Filter Data</div>
-                                        <div class="card-body">
-                                            <?php  
-                                            // dari check
-                                            $dariDate = date("Y-m") . "-01";
-                                            
-                                            // // sampai check
-                                            $kalender = CAL_GREGORIAN;
-                                            $month = date('m');
-                                            $year = date('Y');
-
-                                            $sampaiDate = date("Y-m") . "-" . cal_days_in_month($kalender, $month, $year);
-                                            ?>
-                                            <div class="row">
-                                                <div class="col-sm-5 mb-4">
-                                                    <label for="dari" class="form-label">Dari</label>
-                                                    <input type="date" class="form-control" name="dari" require_once value="<?= isset($_POST['filter_data']) || isset($_POST['actionTosearch']) ? date("Y-m-d", strtotime($_POST['dari'])) : date("Y-m-d", strtotime($dariDate)) ?>" id="dari">
-                                                </div>
-                                                <div class="col-sm-7">
-                                                    <div class="row">
-                                                        <div class="col-12">
-                                                            <label for="sampai" class="form-label">Sampai</label>
-                                                        </div>
-                                                    </div>
-                                                    <div class="row">
-                                                        <div class="col-12 mb-4 col-sm-8">
-                                                            <input type="date" class="form-control" name="sampai" required value="<?= isset($_POST['filter_data']) || isset($_POST['actionTosearch']) ? date("Y-m-d", strtotime($_POST['sampai'])) : date("Y-m-d", strtotime($sampaiDate)) ?>" id="sampai">
-                                                        </div>
-                                                        <div class="col-12 col-sm-4">
-                                                            <button type="submit" style="width: 100%;" name="filter_data" class="btn button-brown"><i class="fa fa-search"></i> search</button>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                                <!-- <div class="col-sm-2">
-                                                    
-                                                </div> -->
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="row">
 
                                 <!-- data -->
                                     <div  class="col-12">
@@ -140,7 +113,7 @@ include_once "laporan-pengeluaran-action.php";
                                                 <div class="card-title title-kategori">
                                                     <div class="row height d-flex align-items-center">
                                                         <div class="col-md-8 col-sm-6">
-                                                            <h6>Data Pengeluaran</h6>
+                                                            <h6>Data Pelanggan</h6>
                                                         </div>
                                                         <div  class="col-md-4 col-sm-6">
                                                             <div class="search"> 
@@ -155,32 +128,38 @@ include_once "laporan-pengeluaran-action.php";
                                                         <table id="tech-companies-1" class="table table-hover">
                                                             <thead>
                                                                 <tr>
-                                                                    <th>Keterangan</th>
-                                                                    <th>Biaya (Rp)</th>
-                                                                    <th>Kode Produk</th>
-                                                                    <th>Tanggal</th>
-                                                                    <th>Waktu</th>
+                                                                    <th>Nama</th>
+                                                                    <th>Email</th>
+                                                                    <th>No Telpn</th>
+                                                                    <th>Jenis Kelamin</th>
+                                                                    <th>Alamat</th>
+                                                                    <th>Aksi</th>
                                                                 </tr>
                                                             </thead>
                                                             <tbody>
-                                                                <?php
-                                                                if($reportData['nums'] > 0){
-                                                                    foreach($reportData['data'] as $row){
-                                                                    $arrayDate = explode(" ", $row['tgl_laporan']);
-                                                                ?>
-                                                                    <tr>
-                                                                        <td><?= $row['keterangan'] ?></td>
-                                                                        <td><?= number_format($row['fee'],2) ?></td>
-                                                                        <td><?= $row['kode_stok'] ?></td>
-                                                                        <td><?= $admin->formatDate($arrayDate[0]) ?></td>
-                                                                        <td><?= $arrayDate[1] ?></td>
-                                                                    </tr>
                                                                 <?php  
-                                                                    }
-                                                                }else{
+                                                                $geCustomer = $admin->checkCustomer(null, null);
+                                                                foreach($geCustomer['data'] as $row){
                                                                 ?>
-                                                                <tr align="center">
-                                                                    <td colspan="5"><h6><?= $emptyNotif ?></h6></td>
+                                                                <tr>
+                                                                    <td><?= ucfirst($row['name_customer']) ?></td>
+                                                                    <td><?= $row['email_customer'] ?></td>
+                                                                    <td><?= $row['no_telp_customer'] ?></td>
+                                                                    <td><?= $row['gender_customer'] ?></td>
+                                                                    <td>
+                                                                        <?= $row['prov_customer'] ?><br>
+                                                                        <?= $row['kab_kota_customer'] ?><br>
+                                                                        <?= $row['kec_customer'] ?><br>
+                                                                        <?= $row['alamat_customer'] ?>
+                                                                    </td>
+                                                                    <td>
+                                                                        <a href="tambah-pelanggan?key=<?= $row['id_customer'] ?>" id="edit">
+                                                                            <i class="mdi mdi-square-edit-outline browns-text" data-bs-toggle="tooltip" data-bs-placement="top" title="edit"></i>
+                                                                        </a>
+                                                                        <a href="pelanggan-toko?key=<?= $row['id_customer'] ?>" id="delete">
+                                                                            <i class="mdi mdi-delete browns-text" data-bs-toggle="tooltip" data-bs-placement="top" title="Delete"></i>
+                                                                        </a>
+                                                                    </td>
                                                                 </tr>
                                                                 <?php  
                                                                 }

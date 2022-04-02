@@ -144,10 +144,22 @@
                             <li class="menu-title">Pengaturan</li>
 
                             <li>
-                                <a href="pelanggan-toko" class="waves-effect">
+                                <a href="javascript: void(0);" class="has-arrow waves-effect">
                                     <i class="ri-user-line"></i>
                                     <span>Pelanggan Toko</span>
                                 </a>
+                                <ul class="sub-menu" aria-expanded="false">
+                                    <li>
+                                        <a href="tambah-pelanggan">
+                                            <span>Tambah Pelanggan</span>
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a href="pelanggan-toko">
+                                            <span>Data Pelanggan</span>
+                                        </a>
+                                    </li>
+                                </ul>
                             </li> 
                             <li>
                                 <a href="tentang-toko" class="waves-effect">
