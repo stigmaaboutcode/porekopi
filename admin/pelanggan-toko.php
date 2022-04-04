@@ -144,6 +144,8 @@ if($customer != ""){
                                                                 }else{
                                                                     $geCustomer = $admin->checkCustomer(null, null);
                                                                 }
+
+                                                                if($geCustomer['nums'] > 0){
                                                                 foreach($geCustomer['data'] as $row){
                                                                 ?>
                                                                 <tr>
@@ -167,8 +169,12 @@ if($customer != ""){
                                                                     </td>
                                                                 </tr>
                                                                 <?php  
-                                                                }
+                                                                }}else{
                                                                 ?>
+                                                                <tr align="center">
+                                                                    <td colspan="8"><h4><?= '"' . $_POST['search'] . '" Tidak ditemukan' ?></h4></td>
+                                                                </tr>
+                                                                <?php } ?>
                                                             </tbody>
                                                         </table>
                                                     </div>
