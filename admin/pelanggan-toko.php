@@ -117,7 +117,7 @@ if($customer != ""){
                                                         </div>
                                                         <div  class="col-md-4 col-sm-6">
                                                             <div class="search"> 
-                                                                <i class="fa fa-search"></i> <input type="text" value="<?= isset($_POST['actionTosearch']) ? $_POST['search'] : '' ?>" name="search" class="form-control" placeholder="Search produk . . ."> <button type="submit" name="actionTosearch" class="btn btn-primary">Search</button> 
+                                                                <i class="fa fa-search"></i> <input type="text" value="<?= isset($_POST['actionTosearch']) ? $_POST['search'] : '' ?>" name="search" class="form-control" placeholder="Search Customer . . ."> <button type="submit" name="actionTosearch" class="btn btn-primary">Search</button> 
                                                             </div>
                                                         </div>
                                                     </div>
@@ -138,7 +138,12 @@ if($customer != ""){
                                                             </thead>
                                                             <tbody>
                                                                 <?php  
-                                                                $geCustomer = $admin->checkCustomer(null, null);
+                                                                if(isset($_POST['actionTosearch'])){
+                                                                    $search = $_POST['search'];
+                                                                    $geCustomer = $admin->checkCustomer("search", $search);
+                                                                }else{
+                                                                    $geCustomer = $admin->checkCustomer(null, null);
+                                                                }
                                                                 foreach($geCustomer['data'] as $row){
                                                                 ?>
                                                                 <tr>

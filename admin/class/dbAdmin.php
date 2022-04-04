@@ -232,6 +232,32 @@ class dbAdmin extends dbConnect{
             $sql = "SELECT email_customer FROM customer_store WHERE email_customer='$key'";
         }elseif($param == "checkByEmailEdit"){
             $sql = "SELECT email_customer FROM customer_store WHERE email_customer<>'$keyEDIT' AND email_customer='$key'";
+        }elseif($param == "search"){
+            $sql = "SELECT * FROM customer_store WHERE  
+            name_customer LIKE '%$key' OR
+            email_customer LIKE '%$key' OR
+            no_telp_customer LIKE '%$key' OR
+            gender_customer LIKE '%$key' OR
+            alamat_customer LIKE '%$key' OR
+            prov_customer LIKE '%$key' OR
+            kab_kota_customer LIKE '%$key' OR
+            kec_customer LIKE '%$key' OR
+            name_customer LIKE '%$key%' OR
+            email_customer LIKE '%$key%' OR
+            no_telp_customer LIKE '%$key%' OR
+            gender_customer LIKE '%$key%' OR
+            alamat_customer LIKE '%$key%' OR
+            prov_customer LIKE '%$key%' OR
+            kab_kota_customer LIKE '%$key%' OR
+            kec_customer LIKE '%$key%' OR
+            name_customer LIKE '$key%' OR
+            email_customer LIKE '$key%' OR
+            no_telp_customer LIKE '$key%' OR
+            gender_customer LIKE '$key%' OR
+            alamat_customer LIKE '$key%' OR
+            prov_customer LIKE '$key%' OR
+            kab_kota_customer LIKE '$key%' OR
+            kec_customer LIKE '$key%' ORDER BY name_customer ASC";
         }
         
         $exe = $this->dbConn()->query($sql);
